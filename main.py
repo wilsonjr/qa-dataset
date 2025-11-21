@@ -36,11 +36,14 @@ if __name__ == "__main__":
     # print(get_records_for_chatbot(dataset))
     # questions = extract_random_questions(dataset, 0.1)
 
-    
+
     error_rate = get_error_rate(dataset).reset_index()
     error_rate.columns = ['chatbot', 'error_rate']
     error_rate['error_rate'] = 1-error_rate['error_rate']
-    sns.barplot(x='chatbot', y='error_rate', data=error_rate)
+    sns.barplot(x='chatbot', y='error_rate', data=error_rate, hue='chatbot')
+    plt.title('Error Rate by Chatbot')
+    plt.xlabel('Chatbot')
+    plt.ylabel('Error Rate')
     plt.savefig('error_rate.png', bbox_inches='tight')
     plt.close()
 
