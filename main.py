@@ -1,4 +1,7 @@
 import random
+import matplotlib.pyplot as plt
+import seaborn as sns
+
 from datasets import Dataset, load_dataset 
 from collections import defaultdict
 
@@ -30,7 +33,17 @@ def extract_random_questions(dataset: Dataset, sample_rate: float):
 
 if __name__ == "__main__":
     dataset = load_dataset("daloopa/financial-retrieval", split="train")
-    print(get_records_for_chatbot(dataset))
-    print(get_error_rate(dataset))
+    # print(get_records_for_chatbot(dataset))
+    # questions = extract_random_questions(dataset, 0.1)
 
-    questions = extract_random_questions(dataset, 0.1)
+    
+    error_rate = get_error_rate(dataset).reset_index()
+    error_rate.columns = ['chatbot', 'error_rate']
+    error_rate['error_rate'] = 1-error_rate['error_rate']
+    sns.barplot(x='chatbot', y='error_rate', data=error_rate)
+    plt.savefig('error_rate.png', bbox_inches='tight')
+    plt.close()
+
+    
+
+
